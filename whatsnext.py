@@ -24,17 +24,28 @@ class Row():
         self.line = []
         self.lines = []
 
-    def on_button_1(self, evt):
+    def __append_point__(self, evt):
+        if len(self.line):
+            last_point = self.line[-1]
+            if last_point == (evt.x, evt.y):
+                return
         self.line.append((evt.x, evt.y))
 
+    def on_button_1(self, evt):
+        self.__append_point__(evt)
+
     def on_button_release_1(self, evt):
+        if len(self.line) == 1:
+            p = self.line[0]
+            self.canvas.create_line(p[0], p[1], p[0], p[1], width=1)
         self.lines.append(self.line)
         self.line = []
 
     def on_b1_motion(self, evt):
-        self.line.append((evt.x, evt.y))
-        p1, p2 = self.line[-2:]
-        self.canvas.create_line(p1[0], p1[1], p2[0], p2[1])
+        self.__append_point__(evt)
+        if len(self.line) >= 2:
+            p1, p2 = self.line[-2:]
+            i = self.canvas.create_line(p1[0], p1[1], p2[0], p2[1], width=2)
 
 class Gui():
     def __init__(self):
