@@ -8,8 +8,12 @@ class Row():
     def __init__(self, root):
         self.frame = tk.Frame(root)
         self.canvas = tk.Canvas(self.frame, bg="white", height=LINE_HEIGHT)
-        self.canvas.create_line(INDENTATION_WIDTH, 0, INDENTATION_WIDTH, LINE_HEIGHT, fill="pink", width=2)
-        self.canvas.create_rectangle(INDENTATION_WIDTH/2 - CHECKBOX_SIZE/2, LINE_HEIGHT/2 - CHECKBOX_SIZE/2, INDENTATION_WIDTH/2 + CHECKBOX_SIZE/2, LINE_HEIGHT/2 + CHECKBOX_SIZE/2)
+        self.canvas.create_line(INDENTATION_WIDTH, 0, INDENTATION_WIDTH,
+                                LINE_HEIGHT, fill="pink", width=2)
+        self.canvas.create_rectangle(INDENTATION_WIDTH/2 - CHECKBOX_SIZE/2,
+                                     LINE_HEIGHT/2 - CHECKBOX_SIZE/2,
+                                     INDENTATION_WIDTH/2 + CHECKBOX_SIZE/2,
+                                     LINE_HEIGHT/2 + CHECKBOX_SIZE/2)
         self.canvas.bind("<Button-1>", self.on_button_1)
         self.canvas.bind("<ButtonRelease-1>", self.on_button_release_1)
         self.canvas.bind("<B1-Motion>", self.on_b1_motion)
