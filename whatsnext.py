@@ -17,16 +17,21 @@ class Row():
         self.canvas.pack(side=tk.LEFT, expand=True, fill=tk.X)
         self.button.pack(side=tk.LEFT, fill=tk.Y)
         self.frame.pack(side=tk.BOTTOM, fill=tk.X)
+        self.line = []
+        self.lines = []
 
     def on_button_1(self, evt):
-        print evt
+        self.line.append((evt.x, evt.y))
 
     def on_button_release_1(self, evt):
-        print evt
+        self.on_b1_motion(evt)
+        self.lines.append(self.line)
+        self.line = []
 
     def on_b1_motion(self, evt):
-        print evt
-
+        self.line.append((evt.x, evt.y))
+        p1, p2 = self.line[-2:]
+        self.canvas.create_line(p1[0], p1[1], p2[0], p2[1])
 
 class Gui():
     def __init__(self):
