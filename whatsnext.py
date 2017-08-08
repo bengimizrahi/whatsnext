@@ -24,7 +24,6 @@ class Row():
         self.line.append((evt.x, evt.y))
 
     def on_button_release_1(self, evt):
-        self.on_b1_motion(evt)
         self.lines.append(self.line)
         self.line = []
 
