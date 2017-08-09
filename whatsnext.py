@@ -22,6 +22,7 @@ class Row():
         self.button.pack(side=tk.LEFT, fill=tk.Y)
         self.frame.pack(side=tk.BOTTOM, fill=tk.X)
         self.line = []
+        self.current_line_canvas_id = None
         self.lines = []
 
     def __append_point__(self, evt):
@@ -31,21 +32,30 @@ class Row():
                 return
         self.line.append((evt.x, evt.y))
 
+    def __draw_current_line__(self):
+        if len(self.line) == 0:
+            return
+        elif len(self.line) == 1:
+            p = self.line[0]
+            if self.current_line_canvas_id:
+                self.canvas.delete(self.current_line_canvas_id)
+            self.current_line_canvas_id = self.canvas.create_line(p[0], p[1], p[0], p[1], width=1)
+        else:
+            def l(arr, p): arr.extend(p); return arr
+            coords = reduce(l, self.line, [])
+            self.current_line_canvas_id = self.canvas.create_line(*coords, width=2)
+
     def on_button_1(self, evt):
         self.__append_point__(evt)
 
     def on_button_release_1(self, evt):
-        if len(self.line) == 1:
-            p = self.line[0]
-            self.canvas.create_line(p[0], p[1], p[0], p[1], width=1)
+        self.__draw_current_line__()
         self.lines.append(self.line)
         self.line = []
 
     def on_b1_motion(self, evt):
         self.__append_point__(evt)
-        if len(self.line) >= 2:
-            p1, p2 = self.line[-2:]
-            i = self.canvas.create_line(p1[0], p1[1], p2[0], p2[1], width=2)
+        self.__draw_current_line__()
 
 class Gui():
     def __init__(self):
